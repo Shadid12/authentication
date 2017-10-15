@@ -7,10 +7,13 @@ const cookieSession = require('cookie-session');
 mongoose.connect(keys.mongoURI);
 const app = express()
 
+require('./models/User');
+require('./services/passport');
+
 //passport and cookies settings
 app.use(
   cookieSession({
-    maxAge: 30 * 24 * 60 * 60 * 1000,
+    maxAge: 24 * 60 * 60 * 1000,
     keys: [keys.cookieKey]
   })
 );
