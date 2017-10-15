@@ -7,10 +7,20 @@ const cookieSession = require('cookie-session');
 mongoose.connect(keys.mongoURI);
 const app = express()
 
+//passport and cookies settings
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [keys.cookieKey]
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+// end
+
 app.get('/', function (req, res) {
   res.send('Hello World!')
 })
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
-})
+const PORT = process.env.PORT || 3001;
+app.listen(PORT);
