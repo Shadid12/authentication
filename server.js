@@ -16,11 +16,13 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-// end
 
+//routes
 app.get('/', function (req, res) {
   res.send('Hello World!')
 })
+
+require('./routes/authRoutes')(app);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT);
