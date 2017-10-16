@@ -9,7 +9,20 @@ passport.use(new FacebookStrategy({
     callbackURL: "/auth/facebook/callback"
   },
   (accessToken, refreshToken, profile, done) => {
-    console.log(profile);
+    		User.findOne({ facebookId: profile.id }).then(existingUser => {
+                if (existingUser) {
+                  // we already have a record with the given profile ID
+                  done(null, existingUser);
+                } else {
+                  // we don't have a user record with this ID, make a new record!
+                  console.log(profile);
+                  new User({ facebookId: profile.id,
+                             name:     profile.displayName
+                  })
+                    .save()
+                    .then(user => done(null, user));
+                }
+            });
   }
 ));
 
